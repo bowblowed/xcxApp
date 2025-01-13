@@ -1,0 +1,34 @@
+<!--pages/order-confirm/index.wxml-->
+<view>
+  <view >
+    <van-button type="info"> 暂无地址点击添加地址 </van-button>
+  </view>
+  <view class="address-card">
+  </view>
+  <text class="phone"> 电话 : {{ User.PhoneNumber }}
+  </text> 
+  <text>商品详情: </text>
+  <view class="good-items" wx:for="{{ Order.OrderItems }}" >
+    <van-card
+  num="{{ item.Count }}"
+  price="{{ item.Price * 0.01 }}"
+  desc="{{ Products[index].Description }}"
+  title="{{ Products[index].Name }}"
+  thumb="{{  ProductPics[index] }}"
+>
+</van-card>
+  </view>
+</view> 
+<payment
+  money="{{ Order.TotalPrice *0.01 }}"
+  show="{{ paymentShow }}"
+  nextAction=""
+  bind:cancel="paymentCancel"
+/>
+<van-submit-bar
+  wx:if ="{{ !paymentShow }}"
+  price="{{ Order.TotalPrice }}"
+  button-text="提交订单"
+  bind:submit="onSubmit"
+/>
+

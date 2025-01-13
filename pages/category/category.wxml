@@ -1,0 +1,31 @@
+<view class="main">
+  <scroll-view class="category-container" scroll-y="true" scroll-with-animation="true">
+    <van-sidebar custom-class="sidebar-l" active-key="{{ activeCategoryIdx }}">
+      <van-sidebar-item id="category{{item.ID}}" wx:for="{{ categories }}" wx:key="ID" data-idx="{{index}}" bindtap="onCategoryClick" title="{{ item.Name }}" />
+    </van-sidebar>
+  </scroll-view>
+  <scroll-view class="goods-container" scroll-y="true" scroll-top="{{scrolltop}}" bindscrolltolower="goodsGoBottom">
+    <van-empty wx:if="{{ !products.length }}" description="暂无商品" />
+    <wxs module="goodsDetailPage">
+    module.exports = {
+      url : function(item) {
+          return '/pages/goods-details/index?ID=' + item.ID
+      }
+    }
+    </wxs>
+    <van-card
+      wx:for="{{ products }}" wx:key="ID"
+      price="{{item.DefaultPrice}}"
+      desc="{{item.Description}}"
+      title="{{item.Name}}"
+      title-class="title-class-apifm"
+      thumb="{{item.PicUrl}}"
+      thumb-link="{{ goodsDetailPage.url(item) }}"
+      bindtap="toProductDetail"
+      data-id="{{item.ID}}"
+    >
+      <view  class="goods-btn" slot="footer">
+      </view>
+    </van-card>
+  </scroll-view>
+</view>

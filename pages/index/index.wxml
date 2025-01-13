@@ -1,0 +1,58 @@
+<van-sticky>
+<view class="search-container">
+  <view class="search" style="height:{{navHeight}}px;padding-top:{{navTop}}px">
+    <view class="search-title" src="../../images/actLogo/ytlogo.png"
+      style="height:{{navHeight-navTop-5}}px;line-height:{{navHeight-navTop-5}}px;width:{{132/52*(navHeight-navTop-5)}}px;">
+      服饰
+    </view>
+    <input placeholder-class="search-placeholder"
+      style="width:{{menuButtonObject.left-18-((132/52)*(navHeight-navTop-5))}}px" type="text" placeholder="输入关键词搜索" disabled
+      value="{{name}}" bindinput="bindinput" bindtap="goSearch"></input>
+  </view>
+</view>
+</van-sticky>
+<wxs module="goodsDetailPage">
+module.exports = {
+  url : function(item) {
+    return '/pages/goods-details/index?id=' + item.goodsId
+  }
+}
+</wxs>
+<view class="swiper-container">
+  <swiper class="swiper1" indicator-dots="true" indicator-active-color="#fff" autoplay circular>
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <image mode="aspectFill" data-item="{{ item }}" src="{{item.PicUrl}}" />
+    </swiper-item>
+  </swiper>
+</view>
+<view class="category-container">
+  <view class="category-box">
+    <view class="category-list" wx:for="{{categories}}" wx:key="id">
+      <view class="category-column" bindtap="tabClick"
+        data-id="{{item.ID}}">
+        <image mode="aspectFill" class="category-imgbox" src="{{item.PicUrl}}"></image>
+        <view class="category-title">{{item.Name}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="container">
+  <van-divider custom-class="table-text" contentPosition="center">
+    <image class="table-icon-goodslist" src="../../images/home/goodslist.png"></image> 商品列表
+  </van-divider>
+  <view class="goods-container">
+    <view class="goods-box" wx:for="{{products}}" wx:key="id" bindtap="toDetailsTap" data-id="{{item.ID}}">
+      <view class="img-box">
+        <image src="{{ item.PicUrl }}" class="image" mode="aspectFill" lazy-load="true" />
+      </view>
+      <view class="goods-title van-multi-ellipsis--l2">{{item.Name}}</view>
+      <view wx:if="{{ item.characteristic }}" class="characteristic van-multi-ellipsis--l2" style="-webkit-line-clamp: 1;">{{item.characteristic}}</view>
+      <view class="goods-price-container">
+        <view class="goods-price">¥ {{ item.DefaultPrice }}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 弹出编辑昵称和头像的框 -->
+<login show="{{ nickPopShow }}" avatarUrl="{{ popavatarUrl }}" name="{{ popnick }}" />

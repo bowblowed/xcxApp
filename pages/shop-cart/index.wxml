@@ -1,0 +1,47 @@
+<!--index.wxml-->
+<view class="container">
+  <van-empty wx-if="" description="购物车空空如也～" image="https://dcdn.it120.cc/2021/03/02/11544ab7-38ca-4570-a876-cbfd39720367.png">
+    <van-button round type="danger" size="small" class="bottom-button" bind:click="toIndexPage">
+      去逛逛
+    </van-button>
+  </van-empty>
+  <view wx-else class="goodsList">
+    <van-cell-group wx:for="{{ shopCart.OrderItems }}" wx:for-item="item" wx:for-index="idx">
+      <view class="a-gooods">
+        <view class="a-goods-conts">
+          <view class="goods-info">
+            <view class="img-box">
+              <image mode="aspectFill" src="{{shopCart.Products[idx].PicUrl}}" class="img" bind:tap="goDetail" data-item="{{ item }}" />
+            </view>
+            <view class="text-box">
+              <view class="goods-title" bind:tap="goDetail" data-item="{{ item }}">{{ shopCart.Products[idx].Name }}</view>
+              <view class="goods-label">
+                <block wx:for="{{ item.Props }}" wx:for-item="option" wx:key="index">
+                  {{ option}}
+                </block>
+              </view>
+              <view class="goods-price">¥ {{ item.Price * item.Count }}</view>
+              <view class="buy-num">
+                <view class="jian-btn" catchtap="jianBtnTap" data-idx="{{ idx }}">-</view>
+                <input type="number" value="{{ item.Count }}" data-idx="{{ idx }}" bindblur="changeCarNumber" />
+                <view class="jia-btn" catchtap="jiaBtnTap" data-idx="{{ idx }}">+</view>
+              </view>
+            </view>
+          </view>
+          <view class="delete-btn"  data-idx="{{ idx }}" catchtap="delItem">
+            删除
+          </view>
+        </view>
+      </view>
+    </van-cell-group>
+
+  </view>
+  <view class="jiesuan-box">
+    <view class="left-price">
+      <view class="total">合计：¥ {{TotalPrice}}</view>
+    </view>
+    <view class="to-pay-btn">
+      <navigator url="/pages/to-pay-order/index?shopCarType={{shopCarType}}">去结算</navigator>
+    </view>
+  </view>
+</view>
